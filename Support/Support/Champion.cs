@@ -47,5 +47,9 @@ namespace Support {
         public virtual void Interrupter_OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell) {
 
         }
+
+        public virtual void AntiGapcloser_OnEnemyGapCloser(ActiveGapcloser gapcloser) {
+            
+        }
     }
 }

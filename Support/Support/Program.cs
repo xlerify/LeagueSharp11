@@ -58,7 +58,12 @@ namespace Support {
             Game.OnGameUpdate += Game_OnGameUpdate;
             Orbwalking.AfterAttack += Orbwalking_AfterAttack;
             Interrupter.OnPosibleToInterrupt += Interrupter_OnPosibleToInterrupt;
+            AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
 
+        }
+
+        static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser) {
+            champClass.AntiGapcloser_OnEnemyGapCloser(gapcloser);
         }
 
         private static void Interrupter_OnPosibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell) {

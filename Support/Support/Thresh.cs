@@ -42,8 +42,6 @@ namespace Support {
         public override void Interrupter_OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell) {
             if (!GetValue<bool>("InterruptSpells")) return;
 
-            Utils.PrintMessage(spell.ChampionName + ": " + spell.SpellName);
-
             if (ObjectManager.Player.Distance(unit) < E.Range && E.IsReady()) {
                 E.Cast(unit);
             } else if (ObjectManager.Player.Distance(unit) < Q.Range && Q.IsReady()) {
@@ -51,11 +49,21 @@ namespace Support {
             }
         }
 
+        public override void AntiGapcloser_OnEnemyGapCloser(ActiveGapcloser gapcloser) {
+            if (!GetValue<bool>("AntiGap")) return;
+
+            Utils.PrintMessage(gapcloser.SkillType + " detected");
+
+            if (E.IsReady()) {
+                E.CastOnUnit(gapcloser.Sender);
+            }
+        }
+
         public override void Game_OnGameUpdate(EventArgs args) {
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
             var useE = GetValue<bool>("UseE" + (ComboActive ? "C" : "H"));
-            //var useR = GetValue<bool>("UseR" + (ComboActive ? "C" : "H"));
+            var useR = GetValue<bool>("UseR" + (ComboActive ? "C" : "H"));
 
             if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
                 return;
@@ -84,16 +92,23 @@ namespace Support {
                 }
                 Q.Cast(t);
             }
+
+            if (useR && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range)) {
+                // Cast R is enemies are in range :D
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
+            }
+
         }
 
         public override void ComboMenu(Menu config) {
             config.AddItem(new MenuItem("UseQC" + Id, "Use Q").SetValue(true));
             config.AddItem(new MenuItem("UseWC" + Id, "Use W").SetValue(true));
             config.AddItem(new MenuItem("UseEC" + Id, "Use E").SetValue(true));
+            config.AddItem(new MenuItem("UseRC" + Id, "Use R").SetValue(true));
             config.AddItem(new MenuItem("spacer", "--- Options ---"));
             config.AddItem(new MenuItem("UseSQ" + Id, "Use Second Q").SetValue(true));
-            //config.AddItem(new MenuItem("UseRC" + Id, "Use R").SetValue(true));
-        }
+            config.AddItem(new MenuItem("CountR" + Id, "Num of Enemy in Range to Ult").SetValue(new Slider(1, 5, 0)));
+       }
 
         public override void HarassMenu(Menu config) {
             config.AddItem(new MenuItem("UseQH" + Id, "Use Q").SetValue(false));
@@ -118,8 +133,8 @@ namespace Support {
         }
 
         public override void MiscMenu(Menu config) {
-            config.AddItem(new MenuItem("UseRM" + Id, "Use R to Killsteal").SetValue(true));
             config.AddItem(new MenuItem("InterruptSpells" + Id, "Use E to Interrupt Spells").SetValue(true));
+            config.AddItem(new MenuItem("AntiGap" + Id, "Anti-Gapclose with E").SetValue(true));
         }
     }
 }
