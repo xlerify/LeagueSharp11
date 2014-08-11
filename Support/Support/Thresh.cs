@@ -28,6 +28,7 @@ namespace Support {
             Q.SetSkillshot(0.5f, 60f, 1200f, true, Prediction.SkillshotType.SkillshotLine);
             E.SetSkillshot(0.5f, 160f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
             R.SetTargetted(0.3f, float.MaxValue);
+
         }
 
         public override void Drawing_OnDraw(EventArgs args) {

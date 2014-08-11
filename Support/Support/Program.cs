@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using System.IO;
 
 #endregion
 
@@ -13,6 +14,9 @@ namespace Support {
 
         public static Menu Config;
         public static Champion champClass = null;
+        private static MemoryStream mem = new MemoryStream();
+        private static BinaryWriter bw = new BinaryWriter(mem);
+        
 
         static void Main(string[] args) {
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
@@ -28,6 +32,9 @@ namespace Support {
             if (ObjectManager.Player.ChampionName == "Morgana")
                 champClass = new Morgana();
 
+            if (ObjectManager.Player.ChampionName == "Blitzcrank")
+                champClass = new Blitzcrank();
+
             if (champClass == null)
                 Utils.PrintMessage("Champion not supported!");
 
@@ -42,7 +49,7 @@ namespace Support {
             champClass.Orbwalker = new Orbwalking.Orbwalker(orbwalking);
 
             var items = Config.AddSubMenu(new Menu("Items", "Items"));
-            items.AddItem(new MenuItem("---- To Be added ----", "added"));
+            items.AddItem(new MenuItem("-- To Be added --", "added").SetValue(true));
 
             var combo = Config.AddSubMenu(new Menu("Combo", "Combo"));
             champClass.ComboMenu(combo); 
@@ -51,6 +58,7 @@ namespace Support {
             champClass.HarassMenu(harass);
 
             var misc = Config.AddSubMenu(new Menu("Misc", "Misc"));
+            misc.AddItem(new MenuItem("AttMin", "Attack Minions?").SetValue(false));
             champClass.MiscMenu(misc);
 
             var drawing = Config.AddSubMenu(new Menu("Drawings", "Drawings"));
@@ -63,9 +71,26 @@ namespace Support {
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnGameUpdate += Game_OnGameUpdate;
             Orbwalking.AfterAttack += Orbwalking_AfterAttack;
+            Orbwalking.OnAttack += Orbwalking_OnAttack;
             Interrupter.OnPosibleToInterrupt += Interrupter_OnPosibleToInterrupt;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
+            Game.OnGameSendPacket += Game_OnGameSendPacket;
 
+        }
+
+        static void Orbwalking_OnAttack(Obj_AI_Base unit, Obj_AI_Base target) {
+            
+        }
+
+        static void Game_OnGameSendPacket(GamePacketEventArgs args) {
+            if (args.PacketData[0] == Packet.C2S.Move.Header) {
+                var decodedPacket = Packet.C2S.Move.Decoded(args.PacketData);
+                if (decodedPacket.MoveType == 3) {
+                    if (champClass.Orbwalker.GetTarget().IsMinion && !Config.Item("AttMin").GetValue<bool>()) {
+                        args.Process = false;
+                    }
+                }
+            }
         }
 
         static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser) {

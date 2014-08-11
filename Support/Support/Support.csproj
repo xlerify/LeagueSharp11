@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blitzcrank.cs" />
     <Compile Include="Champion.cs" />
     <Compile Include="Morgana.cs" />
     <Compile Include="Program.cs" />
