@@ -1,10 +1,13 @@
 LeagueSharp
 ===========
+A repo by Dibes from L#
 
-Support
-=======
+### Support
 
-Easy framework to integrate all support champions under one script.
+> Easy framework to integrate all support champions under one script.
 
-Currently Finished Champions
-Thresh, Morgana, Blitzcrank
+| Champions  | Status |
+| :----------: | :------: |
+| Thresh     | Everything but W implemented |
+| Morgana    | Finished |
+| Blitzcrank | Finished |
