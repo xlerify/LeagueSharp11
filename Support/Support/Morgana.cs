@@ -17,7 +17,7 @@ namespace Support {
             W = new Spell(SpellSlot.W, 900f);
             R = new Spell(SpellSlot.R, 600f);
 
-            Q.SetSkillshot(0.5f, 110f, 1200f, true, Prediction.SkillshotType.SkillshotLine);
+            Q.SetSkillshot(0.5f, 80f, 1200f, true, Prediction.SkillshotType.SkillshotLine);
             W.SetTargetted(0.5f, float.MaxValue);
             R.SetTargetted(0.5f, float.MaxValue);
         }
