@@ -12,7 +12,7 @@ namespace Support {
     internal class Program {
 
         public static Menu Config;
-        public static Champion champClass;
+        public static Champion champClass = null;
 
         static void Main(string[] args) {
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
@@ -24,6 +24,12 @@ namespace Support {
             champClass = new Champion();
             if (ObjectManager.Player.ChampionName == "Thresh")
                 champClass = new Thresh();
+
+            if (ObjectManager.Player.ChampionName == "Morgana")
+                champClass = new Morgana();
+
+            if (champClass == null)
+                Utils.PrintMessage("Champion not supported!");
 
             champClass.Id = ObjectManager.Player.BaseSkinName;
             champClass.Config = Config;
@@ -39,7 +45,7 @@ namespace Support {
             items.AddItem(new MenuItem("---- To Be added ----", "added"));
 
             var combo = Config.AddSubMenu(new Menu("Combo", "Combo"));
-            champClass.ComboMenu(combo);
+            champClass.ComboMenu(combo); 
 
             var harass = Config.AddSubMenu(new Menu("Harass", "Harass"));
             champClass.HarassMenu(harass);
