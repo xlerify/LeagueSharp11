@@ -76,11 +76,19 @@ namespace Support {
                 var t = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
                 var ultTar = Utils.GetEnemyHitByR(R, GetValue<Slider>("CountR").Value);
                 if (ultTar != null) {
-                    R.Cast(ultTar, true, true);
+                    // R.Cast(ultTar, true);
+                    // Attempt at faster cast.
+                    R.CastOnUnit(ultTar, true);
                 }
             }
                 
 
+        }
+
+        public override void Interrupter_OnPossibleToInterrupt(Obj_AI_Base unit, InterruptableSpell spell) {
+            if (spell.DangerLevel == InterruptableDangerLevel.High) {
+                R.Cast(unit);
+            }
         }
 
         public override void Drawing_OnDraw(EventArgs args) {
