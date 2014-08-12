@@ -6,6 +6,7 @@ using System.Drawing;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -53,10 +54,8 @@ namespace Support {
         public override void AntiGapcloser_OnEnemyGapCloser(ActiveGapcloser gapcloser) {
             if (!GetValue<bool>("AntiGap")) return;
 
-            Utils.PrintMessage(gapcloser.SkillType + " detected");
-
             if (E.IsReady()) {
-                E.CastOnUnit(gapcloser.Sender);
+                E.Cast(gapcloser.Sender);
             }
         }
 
@@ -64,7 +63,7 @@ namespace Support {
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
             var useE = GetValue<bool>("UseE" + (ComboActive ? "C" : "H"));
-            var useR = GetValue<bool>("UseR" + (ComboActive ? "C" : "H"));
+            var useR = GetValue<bool>("UseRC");
 
             if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
                 return;
@@ -84,14 +83,15 @@ namespace Support {
 
             if (useQ && Q.IsReady()) {
                 var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
-                if (Utils.HasBuff(t, "threshqleap") && GetValue<bool>("UseSQ")) {
-                    Q.Cast(t);
+                if (Utils.HasBuff(t, "ThreshQ") && GetValue<bool>("UseSQ")) {
+                    Utility.DelayAction.Add(800, castQ);
                 } else if (!GetValue<bool>("UseSQ")) {
                     if (Utils.HasBuff(t, "ThreshQ")) {
                         return;
                     }
+                } else if (!Utils.HasBuff(t, "ThreshQ")) {
+                    Q.Cast(t);
                 }
-                Q.Cast(t);
             }
 
             if (useR && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range)) {
@@ -99,6 +99,10 @@ namespace Support {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
             }
 
+        }
+
+        private void castQ() {
+            ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Q);
         }
 
         public override void ComboMenu(Menu config) {

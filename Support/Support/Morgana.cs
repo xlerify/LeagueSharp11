@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 namespace Support {
-    class Morgana :Champion {
+    class Morgana : Champion {
 
         public Spell Q;
         public Spell W;
@@ -37,11 +37,11 @@ namespace Support {
 
         public override void Game_OnGameUpdate(EventArgs args) {
             if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
-                return;    
-
+                return;
+ 
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
-            var useR = GetValue<bool>("UseR" + (ComboActive ? "C" : "H"));
+            var useR = GetValue<bool>("UseRC");
 
             if (useQ && Q.IsReady()) {
                 var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
@@ -72,7 +72,6 @@ namespace Support {
         public override void HarassMenu(Menu config) {
             config.AddItem(new MenuItem("UseQH" + Id, "Use Q").SetValue(false));
             config.AddItem(new MenuItem("UseWH" + Id, "Use W").SetValue(false));
-            //config.AddItem(new MenuItem("UseRH" + Id, "Use R").SetValue(true));
         }
 
         public override void DrawingMenu(Menu config) {
@@ -88,7 +87,7 @@ namespace Support {
         }
 
         public override void MiscMenu(Menu config) {
-            config.AddItem(new MenuItem("AntiGap" + Id, "Anti-Gapclose with E").SetValue(true));
+            config.AddItem(new MenuItem("AntiGap" + Id, "Anti-Gapclose with Q").SetValue(true));
         }
 
     }
