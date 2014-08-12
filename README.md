@@ -4,7 +4,7 @@ A repo by Dibes from L#
 
 ### Support
 
-> Easy framework to integrate all support champions under one script.
+> Easy framework to integrate all support champions under one script. Feel free to contriute!
 
 | Champions  | Status | Features |
 | :----------: | :------: | :----: |
@@ -12,6 +12,9 @@ A repo by Dibes from L#
 | Morgana    | Finished | [Link](#morgana) |
 | Blitzcrank | Finished | [Link](#blitzcrank) |
 | Sona       | Finished  | [Link](#Sona) |
+| Leona      | TODO      | None |
+| Nami       | TODO      | None |
+| Zyra       | TODO      | None |
 
 
 #### Thresh
