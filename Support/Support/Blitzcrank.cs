@@ -67,7 +67,7 @@ namespace Support {
             }
 
             if (useE && E.IsReady()) {
-                var t = SimpleTs.GetTarget(ObjectManager.Player.AttackRange, SimpleTs.DamageType.Magical);
+                var t = SimpleTs.GetTarget(125, SimpleTs.DamageType.Magical);
                 if (t != null) {
                     E.Cast();
                     Orbwalking.ResetAutoAttackTimer();
