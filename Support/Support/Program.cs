@@ -46,7 +46,7 @@ namespace Support {
             champClass.Orbwalker = new Orbwalking.Orbwalker(orbwalking);
 
             var items = Config.AddSubMenu(new Menu("Items", "Items"));
-            items.AddItem(new MenuItem("-- To Be added --", "added").SetValue(true));
+            champClass.ItemMenu(items);
 
             var combo = Config.AddSubMenu(new Menu("Combo", "Combo"));
             champClass.ComboMenu(combo); 
@@ -68,15 +68,10 @@ namespace Support {
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnGameUpdate += Game_OnGameUpdate;
             Orbwalking.AfterAttack += Orbwalking_AfterAttack;
-            Orbwalking.OnAttack += Orbwalking_OnAttack;
             Interrupter.OnPosibleToInterrupt += Interrupter_OnPosibleToInterrupt;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Game.OnGameSendPacket += Game_OnGameSendPacket;
 
-        }
-
-        static void Orbwalking_OnAttack(Obj_AI_Base unit, Obj_AI_Base target) {
-            
         }
 
         static void Game_OnGameSendPacket(GamePacketEventArgs args) {

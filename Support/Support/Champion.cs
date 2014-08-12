@@ -25,6 +25,9 @@ namespace Support {
         public virtual void HarassMenu(Menu config) {
         }
 
+        public virtual void ItemMenu(Menu config) {
+        }
+
         public virtual void MiscMenu(Menu config) {
         }
 

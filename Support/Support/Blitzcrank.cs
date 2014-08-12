@@ -56,16 +56,16 @@ namespace Support {
             var useR = Config.Item("UseRCombo").GetValue<bool>();
             var useRKS = Config.Item("UseRKSCombo").GetValue<bool>();
 
-            if (!ComboActive && useQ && Q.IsReady()) {
+            if (useQ && Q.IsReady()) {
                 if (ComboActive) {
                     var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Magical);
                     if (t != null) {
-                        Q.Cast(Q.GetPrediction(t).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
+                        Q.Cast(Q.GetPrediction(t).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), -Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
                     }
                 }
             }
 
-            if (!ComboActive && useE && E.IsReady()) {
+            if (useE && E.IsReady()) {
                 var t = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Magical);
                 if (t != null) {
                     E.Cast();

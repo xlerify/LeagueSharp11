@@ -9,6 +9,8 @@ namespace Support {
         public Spell Q;
         public Spell W;
         public Spell R;
+        // Items Consants.
+        public const int Zhonya = 3157; 
 
         public Morgana() {
             Utils.PrintMessage("Morgana Loaded");
@@ -20,6 +22,7 @@ namespace Support {
             Q.SetSkillshot(0.5f, 80f, 1200f, true, Prediction.SkillshotType.SkillshotLine);
             W.SetTargetted(0.5f, float.MaxValue);
             R.SetTargetted(0.5f, float.MaxValue);
+
         }
 
         public override void Drawing_OnDraw(EventArgs args) {
@@ -55,10 +58,29 @@ namespace Support {
                 }
             }
 
-            if (useR && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range)) {
+            if (useR && ComboActive && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range)) {
                 // Cast R is enemies are in range :D
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
+                // Uses Zhonya after ulting :D
+                Utility.DelayAction.Add(10, UseZhonya);
             }
+        }
+
+        // Custom Functions
+        private void UseZhonya() {
+            var zhonya = GetValue<bool>("Zhonya");
+
+            if (zhonya) {
+                var hasZhonya = Items.HasItem(Zhonya);
+
+                if (hasZhonya) {
+                    Items.UseItem(Zhonya);
+                }
+            }
+        }
+
+        public override void ItemMenu(Menu config) {
+            config.AddItem(new MenuItem("Zhonya" + Id, "Use Zhonya after Ult").SetValue(true));    
         }
 
         public override void ComboMenu(Menu config) {
