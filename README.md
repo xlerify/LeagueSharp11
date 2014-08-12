@@ -8,7 +8,7 @@ A repo by Dibes from L#
 
 | Champions  | Status | Features |
 | :----------: | :------: | :----: |
-| Thresh     | Everything but W login implemented | [Link](#thresh) |
+| Thresh     | Everything but W logic implemented | [Link](#thresh) |
 | Morgana    | Finished | [Link](#morgana) |
 | Blitzcrank | Finished | [Link](#blitzcrank) |
 | Sona       | Finished  | [Link](#Sona) |
