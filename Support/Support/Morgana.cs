@@ -51,7 +51,10 @@ namespace Support {
                 Q.Cast(t);
             }
 
-            if (useW && W.IsReady()) {
+            if (GetValue<bool>("UseWRegard") && W.IsReady()) {
+                var t = SimpleTs.GetTarget(W.Range, SimpleTs.DamageType.Physical);
+                W.Cast(t);
+            } else if (useW && W.IsReady()) {
                 var t = SimpleTs.GetTarget(W.Range, SimpleTs.DamageType.Physical);
                 if (Utils.HasBuff(t, "DarkBindingMissile")) {
                     W.Cast(t);
@@ -109,6 +112,7 @@ namespace Support {
         }
 
         public override void MiscMenu(Menu config) {
+            config.AddItem(new MenuItem("UseWRegard" + Id, "Use W Regardless of Q").SetValue(true));
             config.AddItem(new MenuItem("AntiGap" + Id, "Anti-Gapclose with Q").SetValue(true));
         }
 
