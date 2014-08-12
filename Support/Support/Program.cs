@@ -32,6 +32,9 @@ namespace Support {
             if (ObjectManager.Player.ChampionName == "Blitzcrank")
                 champClass = new Blitzcrank();
 
+            if (ObjectManager.Player.ChampionName == "Sona")
+                champClass = new Sona();
+
             if (champClass == null)
                 Utils.PrintMessage("Champion not supported!");
 

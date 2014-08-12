@@ -19,3 +19,4 @@ C:\Users\Jon\Documents\LeagueSharp\Support\Support\bin\Debug\SharpDX.Direct3D9.d
 C:\Users\Jon\Documents\LeagueSharp\Support\Support\bin\Debug\SharpDX.dll
 C:\Users\Jon\Documents\LeagueSharp\Support\Support\bin\Debug\LeagueSharp.xml
 C:\Users\Jon\Documents\LeagueSharp\Support\Support\obj\Debug\Support.csprojResolveAssemblyReference.cache
+C:\Users\Jon\Documents\LeagueSharp\Support\Support\bin\Debug\clipper_library.dll

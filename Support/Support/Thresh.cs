@@ -60,13 +60,13 @@ namespace Support {
         }
 
         public override void Game_OnGameUpdate(EventArgs args) {
+            if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
+                return;
+
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
             var useE = GetValue<bool>("UseE" + (ComboActive ? "C" : "H"));
             var useR = GetValue<bool>("UseRC");
-
-            if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
-                return;
 
             if (useE && E.IsReady()) {
                 // Pull in on combo, out on harrass.

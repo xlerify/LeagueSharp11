@@ -9,6 +9,8 @@ using LeagueSharp;
 using LeagueSharp;
 using SharpDX;
 using System.Collections;
+using LeagueSharp.Common;
+using System;
 namespace Support {
     internal static class Utils {
         public static void PrintMessage(string message) {
@@ -54,6 +56,55 @@ namespace Support {
             } else {
                 return false;
             }
+        }
+
+        public static bool AllyBelowHP(int percentHP, float range) {
+            // Returns true if an ally in range has below a certain % hp.
+            //PrintMessage(Convert.ToString((ObjectManager.Player.Health / ObjectManager.Player.MaxHealth) * 100));
+            foreach (var ally in ObjectManager.Get<Obj_AI_Hero>()) {
+                if (ally.IsMe) {
+                    if (((ObjectManager.Player.Health / ObjectManager.Player.MaxHealth) * 100) < percentHP) {
+                        return true;
+                    }
+                } else if (ally.IsAlly) {
+                    if (Vector3.Distance(ObjectManager.Player.Position, ally.Position) < range && ((ally.Health / ally.MaxHealth) * 100) < percentHP) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        // This is for sona only atm.
+        public static Obj_AI_Hero GetEnemyHitByR(Spell R, int numHit) {
+            int totalHit = 0;
+            Obj_AI_Hero target = null;
+
+            foreach (Obj_AI_Hero current in ObjectManager.Get<Obj_AI_Hero>()) {
+
+                Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), R.Range - Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));
+                Geometry.Rectangle rect = new Geometry.Rectangle(ObjectManager.Player.Position.To2D(), extended, R.Width);
+                
+                var prediction = R.GetPrediction(current, true);
+
+                if (prediction.HitChance >= Prediction.HitChance.LowHitchance && !current.IsMe && current.IsEnemy && Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
+                    // SEt to 1 as the current target is hittable.
+                    totalHit = 1;
+                    foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>()) {
+                        if (enemy.IsEnemy && current.ChampionName != enemy.ChampionName && !enemy.IsDead && !rect.ToPolygon().IsOutside(enemy.Position.To2D())) {
+                            totalHit += 1;
+                        }
+                    }
+                }
+
+                if (totalHit >= numHit) {
+                    target = current;
+                    break;
+                }
+
+            }
+            Game.PrintChat("Targets hit is: " + totalHit);
+            return target;
         }
     }
 }
