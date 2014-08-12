@@ -50,7 +50,7 @@ namespace Support {
                 var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
                 Q.Cast(t);
             }
-
+           
             if (GetValue<bool>("UseWRegard") && W.IsReady()) {
                 var t = SimpleTs.GetTarget(W.Range, SimpleTs.DamageType.Physical);
                 W.Cast(t);

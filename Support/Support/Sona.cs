@@ -8,14 +8,16 @@ namespace Support {
 
         public Spell Q;
         public Spell W;
+        public Spell E;
         public Spell R;
 
         public Sona() {
             Utils.PrintMessage("Sona loaded.");
 
-            Q = new Spell(SpellSlot.Q, 700);
-            W = new Spell(SpellSlot.W, 1000);
-            R = new Spell(SpellSlot.R, 1000);
+            Q = new Spell(SpellSlot.Q, 700f);
+            W = new Spell(SpellSlot.W, 1000f);
+            E = new Spell(SpellSlot.E, 1000f);
+            R = new Spell(SpellSlot.R, 1000f);
 
             // Need to use best AOE position I think.
             R.SetSkillshot(0.5f, 125f, 2400f, false, Prediction.SkillshotType.SkillshotLine);
@@ -48,6 +50,7 @@ namespace Support {
              
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
+            var useE = GetValue<bool>("UseEC");
             var useR = GetValue<bool>("UseRC");
 
             if (useQ && Q.IsReady()) {
@@ -63,6 +66,10 @@ namespace Support {
                 if (Utils.AllyBelowHP(GetValue<Slider>("AutoHeal").Value, W.Range)) {
                     ObjectManager.Player.Spellbook.CastSpell(SpellSlot.W);
                 }
+            }
+
+            if (useE && E.IsReady() && ComboActive) {
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlot.E);
             }
 
             if (useR && R.IsReady() && ComboActive) {
@@ -88,9 +95,10 @@ namespace Support {
         public override void ComboMenu(Menu config) {
             config.AddItem(new MenuItem("UseQC" + Id, "Use Q").SetValue(true));
             config.AddItem(new MenuItem("UseWC" + Id, "Use W").SetValue(true));
+            config.AddItem(new MenuItem("UseEC" + Id, "Use E").SetValue(true));
             config.AddItem(new MenuItem("UseRC" + Id, "Use R").SetValue(true));
             config.AddItem(new MenuItem("spacer", "--- Options ---"));
-            config.AddItem(new MenuItem("CountR" + Id, "Min num of Enemy to hit in Ult").SetValue(new Slider(2, 5, 0)));
+            config.AddItem(new MenuItem("CountR" + Id, "R If Can Hit X").SetValue(new Slider(2, 5, 0)));
         }
 
         public override void HarassMenu(Menu config) {
