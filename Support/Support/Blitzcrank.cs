@@ -60,7 +60,8 @@ namespace Support {
                 if (ComboActive) {
                     var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Magical);
                     if (t != null) {
-                        Q.Cast(Q.GetPrediction(t).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), -Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
+                        //Q.Cast(Q.GetPrediction(t).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), -Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
+                        Q.Cast(t);
                     }
                 }
             }
