@@ -83,14 +83,20 @@ namespace Support {
 
             if (useQ && Q.IsReady()) {
                 var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
-                if (Utils.HasBuff(t, "ThreshQ") && GetValue<bool>("UseSQ")) {
-                    Utility.DelayAction.Add(800, castQ);
-                } else if (!GetValue<bool>("UseSQ")) {
+                if (GetValue<bool>("UseSQ")) {
                     if (Utils.HasBuff(t, "ThreshQ")) {
-                        return;
+                        Utility.DelayAction.Add(800, castQ);
+                    } else if (!GetValue<bool>("UseSQ")) {
+                        if (Utils.HasBuff(t, "ThreshQ")) {
+                            return;
+                        }
+                    } else if (!Utils.HasBuff(t, "ThreshQ")) {
+                        Q.Cast(t);
                     }
-                } else if (!Utils.HasBuff(t, "ThreshQ")) {
-                    Q.Cast(t);
+                } else {
+                    if (!Utils.HasBuff(t, "ThreshQ")) {
+                        Q.Cast(t);
+                    }
                 }
             }
 
