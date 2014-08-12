@@ -76,7 +76,7 @@ namespace Support {
 
 
 
-            if (useR && R.IsReady() && Utils.EnemyInRange(Config.Item("UseRACombo").GetValue<int>(), R.Range)) {
+            if (useR && R.IsReady() && Utils.EnemyInRange(Config.Item("UseRACombo").GetValue<Slider>().Value, R.Range)) {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
             }
             if (useR && useRKS && R.IsReady()) {
