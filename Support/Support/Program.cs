@@ -13,10 +13,7 @@ namespace Support {
     internal class Program {
 
         public static Menu Config;
-        public static Champion champClass = null;
-        private static MemoryStream mem = new MemoryStream();
-        private static BinaryWriter bw = new BinaryWriter(mem);
-        
+        public static Champion champClass = null;       
 
         static void Main(string[] args) {
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
@@ -106,7 +103,7 @@ namespace Support {
         }
 
         private static void Drawing_OnDraw(EventArgs args) {
-            throw new NotImplementedException();
+             champClass.Drawing_OnDraw(args);
         }
 
         private static void Game_OnGameUpdate(EventArgs args) {
