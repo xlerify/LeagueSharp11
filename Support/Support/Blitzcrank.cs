@@ -67,7 +67,7 @@ namespace Support {
             }
 
             if (useE && E.IsReady()) {
-                var t = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Magical);
+                var t = SimpleTs.GetTarget(ObjectManager.Player.AttackRange, SimpleTs.DamageType.Magical);
                 if (t != null) {
                     E.Cast();
                     Orbwalking.ResetAutoAttackTimer();
@@ -80,6 +80,7 @@ namespace Support {
             if (useR && R.IsReady() && Utils.EnemyInRange(Config.Item("UseRACombo").GetValue<Slider>().Value, R.Range)) {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
             }
+
             if (useR && useRKS && R.IsReady()) {
                 foreach (Obj_AI_Hero enemy in ObjectManager.Get<Obj_AI_Hero>().Where(enemy => enemy.Team != ObjectManager.Player.Team && enemy.IsValidTarget() && enemy.IsVisible)) {
                     if (enemy != null) {
