@@ -90,7 +90,7 @@ namespace Support {
             config.AddItem(new MenuItem("UseWC" + Id, "Use W").SetValue(true));
             config.AddItem(new MenuItem("UseRC" + Id, "Use R").SetValue(true));
             config.AddItem(new MenuItem("spacer", "--- Options ---"));
-            config.AddItem(new MenuItem("CountR" + Id, "Min num of Enemy to hit in Ult").SetValue(new Slider(1, 5, 0)));
+            config.AddItem(new MenuItem("CountR" + Id, "Min num of Enemy to hit in Ult").SetValue(new Slider(2, 5, 0)));
         }
 
         public override void HarassMenu(Menu config) {

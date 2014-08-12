@@ -82,12 +82,12 @@ namespace Support {
 
             foreach (Obj_AI_Hero current in ObjectManager.Get<Obj_AI_Hero>()) {
 
-                Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), R.Range - Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));
+                Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), R.Range - 15 - Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));                
                 Geometry.Rectangle rect = new Geometry.Rectangle(ObjectManager.Player.Position.To2D(), extended, R.Width);
                 
                 var prediction = R.GetPrediction(current, true);
 
-                if (prediction.HitChance >= Prediction.HitChance.LowHitchance && !current.IsMe && current.IsEnemy && Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
+                if (!current.IsMe && current.IsEnemy && Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
                     // SEt to 1 as the current target is hittable.
                     totalHit = 1;
                     foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>()) {
@@ -103,7 +103,8 @@ namespace Support {
                 }
 
             }
-            Game.PrintChat("Targets hit is: " + totalHit);
+
+            Console.WriteLine(Game.Time + " | Targets hit is: " + totalHit + " Out of " + numHit);
             return target;
         }
     }
