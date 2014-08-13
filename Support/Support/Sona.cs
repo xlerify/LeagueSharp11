@@ -25,7 +25,9 @@ namespace Support {
         }
 
         public override void Game_OnGameUpdate(EventArgs args) {
-            
+
+            var autoMana = ((ObjectManager.Player.Mana / ObjectManager.Player.MaxMana) * 100) > GetValue<Slider>("autoMana").Value;
+
             if (GetValue<bool>("AutoQ")) {
                 if (Q.IsReady()) {
                     // Cast Q when target is in range
@@ -98,6 +100,10 @@ namespace Support {
                 if (menuItem.Active)
                     Utility.DrawCircle(ObjectManager.Player.Position, spell.Range, menuItem.Color);
             }
+        }
+
+        public override void ManaMenu(Menu config) {
+            config.AddItem(new MenuItem("autoMana" + Id, "Auto Mana %").SetValue(new Slider(30, 100, 0)));    
         }
 
         public override void ComboMenu(Menu config) {

@@ -57,6 +57,12 @@ namespace Support {
             var harass = Config.AddSubMenu(new Menu("Harass", "Harass"));
             champClass.HarassMenu(harass);
 
+            // Mana sliders :D
+            var mana = Config.AddSubMenu(new Menu("Mana Limiter", "Mana Limiter"));
+            mana.AddItem(new MenuItem("comboMana", "Combo Mana %").SetValue(new Slider(1, 100, 0)));
+            mana.AddItem(new MenuItem("harassMana", "Harass Mana %").SetValue(new Slider(30, 100, 0)));
+            champClass.ManaMenu(mana);
+
             var misc = Config.AddSubMenu(new Menu("Misc", "Misc"));
             misc.AddItem(new MenuItem("AttMin", "Attack Minions?").SetValue(false));
             champClass.MiscMenu(misc);
@@ -106,8 +112,8 @@ namespace Support {
 
         private static void Game_OnGameUpdate(EventArgs args) {
             // Update the combo and harass values.
-            champClass.ComboActive = champClass.Config.Item("Orbwalk").GetValue<KeyBind>().Active;
-            champClass.HarassActive = champClass.Config.Item("Farm").GetValue<KeyBind>().Active;
+            champClass.ComboActive = champClass.Config.Item("Orbwalk").GetValue<KeyBind>().Active && (((ObjectManager.Player.Mana / ObjectManager.Player.MaxMana) * 100) > Config.Item("comboMana").GetValue<Slider>().Value);
+            champClass.HarassActive = champClass.Config.Item("Farm").GetValue<KeyBind>().Active && (((ObjectManager.Player.Mana / ObjectManager.Player.MaxMana) * 100) > Config.Item("harassMana").GetValue<Slider>().Value);
             champClass.Game_OnGameUpdate(args);
         }
     }

@@ -34,6 +34,9 @@ namespace Support {
         public virtual void DrawingMenu(Menu config) {
         }
 
+        public virtual void ManaMenu(Menu config) {
+        }
+
         public virtual void MainMenu(Menu config) {
         }
 
