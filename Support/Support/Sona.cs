@@ -76,9 +76,9 @@ namespace Support {
                 var t = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
                 var ultTar = Utils.GetEnemyHitByR(R, GetValue<Slider>("CountR").Value);
                 if (ultTar != null) {
-                    // R.Cast(ultTar, true);
+                    R.Cast(ultTar, true);
                     // Attempt at faster cast.
-                    R.CastOnUnit(ultTar, true);
+                    //R.CastOnUnit(ultTar, true);
                 }
             }
                 
