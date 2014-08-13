@@ -20,7 +20,7 @@ namespace Support {
             R = new Spell(SpellSlot.R, 1000f);
 
             // Need to use best AOE position I think.
-            R.SetSkillshot(0.5f, 125f, 2400f, false, Prediction.SkillshotType.SkillshotLine);
+            R.SetSkillshot(0.5f, 125f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
 
         }
 
@@ -28,7 +28,7 @@ namespace Support {
 
             var autoMana = ((ObjectManager.Player.Mana / ObjectManager.Player.MaxMana) * 100) > GetValue<Slider>("autoMana").Value;
 
-            if (GetValue<bool>("AutoQ")) {
+            if (GetValue<bool>("AutoQ") && autoMana) {
                 if (Q.IsReady()) {
                     // Cast Q when target is in range
                     var t = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
@@ -38,7 +38,7 @@ namespace Support {
                 }
             }
 
-            if (GetValue<bool>("AutoW")) {
+            if (GetValue<bool>("AutoW") && autoMana) {
                 if (W.IsReady()) {
                     // Casts when an Ally is below the set HP threshold.
                     if (Utils.AllyBelowHP(GetValue<Slider>("AutoHeal").Value, W.Range)) {
