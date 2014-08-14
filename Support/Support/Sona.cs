@@ -11,7 +11,7 @@ namespace Support {
         public Spell W;
         public Spell E;
         public Spell R;
-        public bool Debug = true;
+        public bool Debug = false;
         LeagueSharp.Common.Prediction.PredictionOutput pred;
 
         // Items Consants.
