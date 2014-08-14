@@ -19,6 +19,7 @@ namespace Support {
             W = new Spell(SpellSlot.W, 1000f);
             E = new Spell(SpellSlot.E, 1000f);
             R = new Spell(SpellSlot.R, 1000f);
+            
 
             // Need to use best AOE position I think.
             R.SetSkillshot(0.5f, 125f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
