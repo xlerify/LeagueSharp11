@@ -1,18 +1,16 @@
-﻿#region
-
-using System.Linq;
-using LeagueSharp;
-
-
-#endregion
-
+﻿using System.Linq;
 using LeagueSharp;
 using SharpDX;
 using System.Collections;
 using LeagueSharp.Common;
 using System;
+
+
 namespace Support {
     internal static class Utils {
+
+        public static Geometry.Rectangle rect;
+
         public static void PrintMessage(string message) {
             Game.PrintChat("<font color='#1600DB'>Support:</font> <font color='#FFFFFF'>" + message + "</font>");
         }
@@ -82,24 +80,27 @@ namespace Support {
 
             foreach (Obj_AI_Hero current in ObjectManager.Get<Obj_AI_Hero>()) {
 
-                Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), R.Range - 15 - Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));                
-                Geometry.Rectangle rect = new Geometry.Rectangle(ObjectManager.Player.Position.To2D(), extended, R.Width);
-                
                 var prediction = R.GetPrediction(current, true);
 
-                if (!current.IsMe && current.IsEnemy && Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
-                    // SEt to 1 as the current target is hittable.
-                    totalHit = 1;
-                    foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>()) {
-                        if (enemy.IsEnemy && current.ChampionName != enemy.ChampionName && !enemy.IsDead && !rect.ToPolygon().IsOutside(enemy.Position.To2D())) {
-                            totalHit += 1;
+                if (Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
+                    
+                    Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), -R.Range + Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));
+                    rect = new Geometry.Rectangle(ObjectManager.Player.Position.To2D(), extended, R.Width);
+
+                    if (!current.IsMe && current.IsEnemy) {
+                        // SEt to 1 as the current target is hittable.
+                        totalHit = 1;
+                        foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>()) {
+                            if (enemy.IsEnemy && current.ChampionName != enemy.ChampionName && !enemy.IsDead && !rect.ToPolygon().IsOutside(enemy.Position.To2D())) {
+                                totalHit += 1;
+                            }
                         }
                     }
-                }
 
-                if (totalHit >= numHit) {
-                    target = current;
-                    break;
+                    if (totalHit >= numHit) {
+                        target = current;
+                        break;
+                    }
                 }
 
             }

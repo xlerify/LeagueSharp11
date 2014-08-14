@@ -10,6 +10,7 @@ namespace Support {
         public Spell W;
         public Spell E;
         public Spell R;
+        public bool Debug = false;
 
         public Sona() {
             Utils.PrintMessage("Sona loaded.");
@@ -100,6 +101,10 @@ namespace Support {
                 if (menuItem.Active)
                     Utility.DrawCircle(ObjectManager.Player.Position, spell.Range, menuItem.Color);
             }
+            if (Debug) {
+                Utils.rect.ToPolygon().Draw(System.Drawing.Color.White, 2);
+            }
+
         }
 
         public override void ManaMenu(Menu config) {
