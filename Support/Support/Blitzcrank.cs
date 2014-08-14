@@ -42,7 +42,7 @@ namespace Support {
             if (!GetValue<bool>("InterruptSpells")) return;
 
             if (ObjectManager.Player.Distance(unit) < Q.Range && Q.IsReady()) {
-                Q.Cast(Q.GetPrediction(unit).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), Vector3.Distance(ObjectManager.Player.Position, unit.Position) + 30));
+                Q.Cast(unit);
 
             } else if (ObjectManager.Player.Distance(unit) < R.Range && R.IsReady()) {
                 R.Cast();

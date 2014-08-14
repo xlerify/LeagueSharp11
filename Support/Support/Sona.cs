@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -10,7 +11,11 @@ namespace Support {
         public Spell W;
         public Spell E;
         public Spell R;
-        public bool Debug = false;
+        public bool Debug = true;
+        LeagueSharp.Common.Prediction.PredictionOutput pred;
+
+        // Items Consants.
+        public const int FrostQueen = 3092;
 
         public Sona() {
             Utils.PrintMessage("Sona loaded.");
@@ -21,7 +26,7 @@ namespace Support {
             R = new Spell(SpellSlot.R, 1000f);
             
 
-            // Need to use best AOE position I think.
+            // Just setting R skillshot values.
             R.SetSkillshot(0.5f, 125f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
 
         }
@@ -52,6 +57,7 @@ namespace Support {
             if ((!ComboActive && !HarassActive) || (!Orbwalking.CanMove(100)))
                 return;
              
+            // Vars that grab values based on the menu
             var useQ = GetValue<bool>("UseQ" + (ComboActive ? "C" : "H"));
             var useW = GetValue<bool>("UseW" + (ComboActive ? "C" : "H"));
             var useE = GetValue<bool>("UseEC");
@@ -73,6 +79,7 @@ namespace Support {
             }
 
             if (useE && E.IsReady() && ComboActive) {
+                // This uses E just to proc passive :D
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.E);
             }
 
@@ -85,7 +92,22 @@ namespace Support {
                     //R.CastOnUnit(ultTar, true);
                 }
             }
-                
+
+            // Item menu
+            if (ComboActive) {
+                // Gets the target within frostQueens range (850).
+                var target = SimpleTs.GetTarget(840, SimpleTs.DamageType.Physical);
+                if (Items.HasItem(FrostQueen) && Items.CanUseItem(FrostQueen)) {
+                    // Grab the prediction based on arbitrary values ^.^
+                    pred = Prediction.GetBestPosition(target, 0.5f, 50f, 1200f, ObjectManager.Player.Position, 850, false, Prediction.SkillshotType.SkillshotLine);
+                    foreach (var slot in ObjectManager.Player.InventoryItems.Where(slot => slot.Id == (ItemId)FrostQueen)) {
+                        if (pred.HitChance >= Prediction.HitChance.LowHitchance) {
+                            slot.UseItem(pred.Position);
+                            Console.WriteLine("Casted on " + pred.Position.ToString());
+                        }
+                    }
+                }
+            }
 
         }
 
@@ -103,13 +125,18 @@ namespace Support {
                     Utility.DrawCircle(ObjectManager.Player.Position, spell.Range, menuItem.Color);
             }
             if (Debug) {
-                Utils.rect.ToPolygon().Draw(System.Drawing.Color.White, 2);
+                //Utils.rect.ToPolygon().Draw(System.Drawing.Color.White, 2);
+                Utility.DrawCircle(pred.Position, 40, System.Drawing.Color.White);
             }
 
         }
 
         public override void ManaMenu(Menu config) {
             config.AddItem(new MenuItem("autoMana" + Id, "Auto Mana %").SetValue(new Slider(30, 100, 0)));    
+        }
+        
+        public override void ItemMenu(Menu config) {
+            config.AddItem(new MenuItem("frostQueen" + Id, "Use Frost Queen on Combo").SetValue(true));
         }
 
         public override void ComboMenu(Menu config) {
