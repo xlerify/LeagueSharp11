@@ -21,7 +21,7 @@ namespace Support {
         public Thresh() {
             Utils.PrintMessage("Thresh Loaded");
 
-            Q = new Spell(SpellSlot.Q, 1075);
+            Q = new Spell(SpellSlot.Q, 1075f);
             W = new Spell(SpellSlot.W, 950f);
             E = new Spell(SpellSlot.E, 400f);
             R = new Spell(SpellSlot.R, 425f);
