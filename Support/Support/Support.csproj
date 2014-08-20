@@ -81,6 +81,7 @@
     <Compile Include="Blitzcrank.cs" />
     <Compile Include="Champion.cs" />
     <Compile Include="Geometry.cs" />
+    <Compile Include="Leona.cs" />
     <Compile Include="Morgana.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

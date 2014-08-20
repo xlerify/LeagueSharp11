@@ -23,20 +23,24 @@ namespace Support {
             Config = new Menu("Support", "Support", true);
 
             champClass = new Champion();
-            if (ObjectManager.Player.ChampionName == "Thresh")
-                champClass = new Thresh();
 
-            if (ObjectManager.Player.ChampionName == "Morgana")
-                champClass = new Morgana();
-
-            if (ObjectManager.Player.ChampionName == "Blitzcrank")
-                champClass = new Blitzcrank();
-
-            if (ObjectManager.Player.ChampionName == "Sona")
-                champClass = new Sona();
-
-            if (champClass == null)
-                Utils.PrintMessage("Champion not supported!");
+            switch (ObjectManager.Player.ChampionName) {
+                case "Thresh":
+                    champClass = new Thresh();
+                    break;
+                case "Morgana":
+                    champClass = new Morgana();
+                    break;
+                case "Blitzcrank":
+                    champClass = new Blitzcrank();
+                    break;
+                case "Sona":
+                    champClass = new Sona();
+                    break;
+                case "Leona":
+                    champClass = new Leona();
+                    break;
+            }
 
             champClass.Id = ObjectManager.Player.BaseSkinName;
             champClass.Config = Config;

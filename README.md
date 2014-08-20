@@ -12,7 +12,7 @@ A repo by Dibes from L#
 | Morgana    | Finished | [Link](#morgana) |
 | Blitzcrank | Finished | [Link](#blitzcrank) |
 | Sona       | Finished  | [Link](#Sona) |
-| Leona      | TODO      | None |
+| Leona      | Finished  | [Link](#Leona) |
 | Nami       | TODO      | None |
 | Zyra       | TODO      | None |
 
@@ -73,3 +73,25 @@ A repo by Dibes from L#
       - Can Autocast | Casts when enemy is in range
     - Aria of Perseverance
       - Can autocast | Casts when ally is below hp threshold
+
+#### Leona
+
+  - Combo
+    - Shield of Daybreak(Q)
+      - Casts if target is within E range
+    - Eclipse (W)
+      - Casts if target is within E range
+	- Zenith Blade (E)
+	  - Uses basic prediction
+    - Solar Flare (R)
+      - Casts if X amount of Champs in Range
+  - Harass
+    - Shield of Daybreak(Q)
+      - Casts if target is within E range
+    - Eclipse (W)
+      - Casts if target is within E range
+	- Zenith Blade (E)
+	  - Uses basic prediction
+  - Items
+    - FrostQueen
+	  - Uses on Combo

@@ -103,7 +103,6 @@ namespace Support {
                     foreach (var slot in ObjectManager.Player.InventoryItems.Where(slot => slot.Id == (ItemId)FrostQueen)) {
                         if (pred.HitChance >= Prediction.HitChance.LowHitchance) {
                             slot.UseItem(pred.Position);
-                            Console.WriteLine("Casted on " + pred.Position.ToString());
                         }
                     }
                 }
