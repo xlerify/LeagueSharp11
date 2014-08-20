@@ -76,7 +76,7 @@ namespace Support {
             if (zhonya) {
                 var hasZhonya = Items.HasItem(Zhonya);
 
-                if (hasZhonya) {
+                if (hasZhonya && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, 400)) {
                     Items.UseItem(Zhonya);
                 }
             }
