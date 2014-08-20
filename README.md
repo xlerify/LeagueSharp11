@@ -11,8 +11,8 @@ A repo by Dibes from L#
 | Thresh     | Everything but W logic implemented | [Link](#thresh) |
 | Morgana    | Finished | [Link](#morgana) |
 | Blitzcrank | Finished | [Link](#blitzcrank) |
-| Sona       | Finished  | [Link](#Sona) |
-| Leona      | Finished  | [Link](#Leona) |
+| Sona       | Finished  | [Link](#sona) |
+| Leona      | Finished  | [Link](#leona) |
 | Nami       | TODO      | None |
 | Zyra       | TODO      | None |
 
