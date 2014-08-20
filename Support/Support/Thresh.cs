@@ -91,11 +91,17 @@ namespace Support {
                             return;
                         }
                     } else if (!Utils.HasBuff(t, "ThreshQ")) {
-                        Q.Cast(t);
+                        var predOut = Prediction.GetBestPosition(t, Q.Delay, Q.Width, W.Speed, ObjectManager.Player.Position, Q.Range, Q.Collision, Prediction.SkillshotType.SkillshotLine);
+                        if (predOut.HitChance > Prediction.HitChance.HighHitchance) {
+                            Q.Cast(predOut.Position);
+                        }
                     }
                 } else {
                     if (!Utils.HasBuff(t, "ThreshQ")) {
-                        Q.Cast(t);
+                        var predOut = Prediction.GetBestPosition(t, Q.Delay, Q.Width, W.Speed, ObjectManager.Player.Position, Q.Range, Q.Collision, Prediction.SkillshotType.SkillshotLine);
+                        if (predOut.HitChance > Prediction.HitChance.HighHitchance) {
+                            Q.Cast(predOut.Position);
+                        }
                     }
                 }
             }
