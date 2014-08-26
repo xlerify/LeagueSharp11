@@ -26,8 +26,8 @@ namespace Support {
             E = new Spell(SpellSlot.E, 400f);
             R = new Spell(SpellSlot.R, 425f);
 
-            Q.SetSkillshot(0.5f, 60f, 1200f, true, Prediction.SkillshotType.SkillshotLine);
-            E.SetSkillshot(0.5f, 160f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
+            Q.SetSkillshot(0.5f, 60f, 1200f, true, SkillshotType.SkillshotLine);
+            E.SetSkillshot(0.5f, 160f, float.MaxValue, false, SkillshotType.SkillshotLine);
             R.SetTargetted(0.3f, float.MaxValue);
 
         }
@@ -73,7 +73,7 @@ namespace Support {
                 if (ComboActive) {
                     var t = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Physical);
                     if (t != null) {
-                        E.Cast(E.GetPrediction(t).Position.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
+                        E.Cast(E.GetPrediction(t).CastPosition.To2D().Extend(ObjectManager.Player.ServerPosition.To2D(), Vector3.Distance(ObjectManager.Player.Position, t.Position) + 30));
                     }
                 } else {
                     var t = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Physical);
@@ -91,16 +91,16 @@ namespace Support {
                             return;
                         }
                     } else if (!Utils.HasBuff(t, "ThreshQ")) {
-                        var predOut = Prediction.GetBestPosition(t, Q.Delay, Q.Width, W.Speed, ObjectManager.Player.Position, Q.Range, Q.Collision, Prediction.SkillshotType.SkillshotLine);
-                        if (predOut.HitChance > Prediction.HitChance.HighHitchance) {
-                            Q.Cast(predOut.Position);
+                        var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
+                        if (predOut.Hitchance > HitChance.High) {
+                            Q.Cast(predOut.CastPosition);
                         }
                     }
                 } else {
                     if (!Utils.HasBuff(t, "ThreshQ")) {
-                        var predOut = Prediction.GetBestPosition(t, Q.Delay, Q.Width, W.Speed, ObjectManager.Player.Position, Q.Range, Q.Collision, Prediction.SkillshotType.SkillshotLine);
-                        if (predOut.HitChance > Prediction.HitChance.HighHitchance) {
-                            Q.Cast(predOut.Position);
+                        var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
+                        if (predOut.Hitchance > HitChance.High) {
+                            Q.Cast(predOut.CastPosition);
                         }
                     }
                 }

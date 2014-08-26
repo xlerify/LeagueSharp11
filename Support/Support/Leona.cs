@@ -24,8 +24,8 @@ namespace Support {
             E = new Spell(SpellSlot.E, 900f);
             R = new Spell(SpellSlot.R, 1200f);
 
-            E.SetSkillshot(0f, 100f, 2000f, false, Prediction.SkillshotType.SkillshotLine);
-            R.SetSkillshot(0.7f, 315, float.MaxValue, false, Prediction.SkillshotType.SkillshotCircle);
+            E.SetSkillshot(0f, 100f, 2000f, false, SkillshotType.SkillshotLine);
+            R.SetSkillshot(0.7f, 315, float.MaxValue, false, SkillshotType.SkillshotCircle);
 
         }
 
@@ -77,9 +77,9 @@ namespace Support {
 
             if (useR && R.IsReady()) {
                 var t = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
-                var predOut = Prediction.GetBestAOEPosition(t, R.Delay, R.Width, R.Speed, ObjectManager.Player.Position, R.Range, R.Collision, Prediction.SkillshotType.SkillshotCircle);
-                if (predOut.TargetsHit <= GetValue<Slider>("CountR").Value) {
-                    R.Cast(predOut.Position, GetValue<bool>("Packets"));
+                var predOut = Prediction.GetPrediction(t, R.Delay, R.Width, R.Speed);
+                if (predOut.AoeTargetsHitCount <= GetValue<Slider>("CountR").Value) {
+                    R.Cast(predOut.CastPosition, GetValue<bool>("Packets"));
                 }
             }
 
@@ -89,10 +89,10 @@ namespace Support {
                 var target = SimpleTs.GetTarget(840, SimpleTs.DamageType.Physical);
                 if (Items.HasItem(FrostQueen) && Items.CanUseItem(FrostQueen)) {
                     // Grab the prediction based on arbitrary values ^.^
-                    var pred = Prediction.GetBestPosition(target, 0.5f, 50f, 1200f, ObjectManager.Player.Position, 850, false, Prediction.SkillshotType.SkillshotLine);
+                    var pred = Prediction.GetPrediction(target, 0.5f, 50f, 1200f);
                     foreach (var slot in ObjectManager.Player.InventoryItems.Where(slot => slot.Id == (ItemId)FrostQueen)) {
-                        if (pred.HitChance >= Prediction.HitChance.LowHitchance) {
-                            slot.UseItem(pred.Position);
+                        if (pred.Hitchance >= HitChance.Low) {
+                            slot.UseItem(pred.CastPosition);
                         }
                     }
                 }

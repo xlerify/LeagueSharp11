@@ -26,7 +26,7 @@ namespace Support {
             E = new Spell(SpellSlot.E, 125f);
             R = new Spell(SpellSlot.R, 600f);
 
-            Q.SetSkillshot(0.5f, 70f, 1000f, true, Prediction.SkillshotType.SkillshotLine);
+            Q.SetSkillshot(0.5f, 70f, 1000f, true, SkillshotType.SkillshotLine);
         }
 
         public override void Drawing_OnDraw(EventArgs args) {

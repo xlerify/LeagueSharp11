@@ -82,7 +82,7 @@ namespace Support {
 
                 var prediction = R.GetPrediction(current, true);
 
-                if (Vector3.Distance(ObjectManager.Player.Position, prediction.Position) <= R.Range) {
+                if (Vector3.Distance(ObjectManager.Player.Position, prediction.CastPosition) <= R.Range) {
                     
                     Vector2 extended = current.Position.To2D().Extend(ObjectManager.Player.Position.To2D(), -R.Range + Vector2.Distance(ObjectManager.Player.Position.To2D(), current.Position.To2D()));
                     rect = new Geometry.Rectangle(ObjectManager.Player.Position.To2D(), extended, R.Width);

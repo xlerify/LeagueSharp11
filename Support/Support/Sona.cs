@@ -12,7 +12,7 @@ namespace Support {
         public Spell E;
         public Spell R;
         public bool Debug = false;
-        LeagueSharp.Common.Prediction.PredictionOutput pred;
+        PredictionOutput pred;
 
         // Items Consants.
         public const int FrostQueen = 3092;
@@ -27,7 +27,7 @@ namespace Support {
             
 
             // Just setting R skillshot values.
-            R.SetSkillshot(0.5f, 125f, float.MaxValue, false, Prediction.SkillshotType.SkillshotLine);
+            R.SetSkillshot(0.5f, 125f, float.MaxValue, false, SkillshotType.SkillshotLine);
 
         }
 
@@ -99,10 +99,10 @@ namespace Support {
                 var target = SimpleTs.GetTarget(840, SimpleTs.DamageType.Physical);
                 if (Items.HasItem(FrostQueen) && Items.CanUseItem(FrostQueen)) {
                     // Grab the prediction based on arbitrary values ^.^
-                    pred = Prediction.GetBestPosition(target, 0.5f, 50f, 1200f, ObjectManager.Player.Position, 850, false, Prediction.SkillshotType.SkillshotLine);
+                    pred = Prediction.GetPrediction(target, 0.5f, 50f, 1200f);
                     foreach (var slot in ObjectManager.Player.InventoryItems.Where(slot => slot.Id == (ItemId)FrostQueen)) {
-                        if (pred.HitChance >= Prediction.HitChance.LowHitchance) {
-                            slot.UseItem(pred.Position);
+                        if (pred.Hitchance >= HitChance.Medium) {
+                            slot.UseItem(pred.CastPosition);
                         }
                     }
                 }
@@ -125,7 +125,7 @@ namespace Support {
             }
             if (Debug) {
                 //Utils.rect.ToPolygon().Draw(System.Drawing.Color.White, 2);
-                Utility.DrawCircle(pred.Position, 40, System.Drawing.Color.White);
+                Utility.DrawCircle(pred.CastPosition, 40, System.Drawing.Color.White);
             }
 
         }
