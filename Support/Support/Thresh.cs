@@ -91,22 +91,18 @@ namespace Support {
                             return;
                         }
                     } else if (!Utils.HasBuff(t, "ThreshQ")) {
-                        var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
-                        if (predOut.Hitchance > HitChance.High) {
-                            Q.Cast(predOut.CastPosition);
-                        }
+                        //var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
+                        Q.Cast(t);
                     }
                 } else {
                     if (!Utils.HasBuff(t, "ThreshQ")) {
-                        var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
-                        if (predOut.Hitchance > HitChance.High) {
-                            Q.Cast(predOut.CastPosition);
-                        }
+                        //var predOut = Prediction.GetPrediction(t, Q.Delay, Q.Width, W.Speed);
+                        Q.Cast(t);
                     }
                 }
             }
 
-            if (useR && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range)) {
+            if (useR && Utils.EnemyInRange(GetValue<Slider>("CountR").Value, R.Range - 50)) {
                 // Cast R is enemies are in range :D
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlot.R);
             }
